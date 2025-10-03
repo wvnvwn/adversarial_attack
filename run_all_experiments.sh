@@ -23,11 +23,13 @@ echo "----------------------------------------------------------------"
 # Setting Hyperparameters
 EPOCHS_MNIST=10
 EPS_MNIST=0.2
+LEARNING_RATE_MNIST=0.001
 PGD_ITER_MNIST=10
 PGD_STEP_MNIST=0.02
 
 EPOCHS_CIFAR10=10
 EPS_CIFAR10=0.2
+LEARNING_RATE_CIFAR10=0.001
 PGD_ITER_CIFAR10=10
 PGD_STEP_CIFAR10=0.02
 
@@ -41,6 +43,7 @@ python run_experiment.py \
     --dataset mnist \
     --epochs $EPOCHS_MNIST \
     --batch_size 64 \
+    --learning_rate $LEARNING_RATE_MNIST \
     --seed 42 \
     --eps $EPS_MNIST \
     --pgd_iter $PGD_ITER_MNIST \
@@ -61,6 +64,7 @@ python run_experiment.py \
     --dataset cifar10 \
     --epochs $EPOCHS_CIFAR10 \
     --batch_size 64 \
+    --learning_rate $LEARNING_RATE_CIFAR10 \
     --seed 42 \
     --eps $EPS_CIFAR10 \
     --pgd_iter $PGD_ITER_CIFAR10 \

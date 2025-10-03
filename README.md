@@ -41,7 +41,7 @@ chmod +x run_all_experiments.sh
 
 ## 5. Script Arguments (for manual execution)
 - ```--dataset```: ```mnist``` or ```cifar10```. Default is ```mnist```.
-- ```--epochs```: Default is ```3```.
+- ```--epochs```: Default is ```10```.
 - ```--batch_size```: Default is ```64```.
 - ```--learning_rate```: Default is ```0.001```.
 - ```--seed```: Global random seed for reproducability. Default is ```42```.
