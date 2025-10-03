@@ -1,7 +1,7 @@
 from torch import nn
 
 class ColorNet(nn.Module):
-    """A novel, simple CNN for CIFAR-10."""
+    """Simple CNN for CIFAR-10."""
     def __init__(self, output_dim=10):
         super().__init__()
         self.feature_extractor = nn.Sequential(

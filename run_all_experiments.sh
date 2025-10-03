@@ -14,7 +14,14 @@ set -e
 echo "🚀 [START] All adversarial attack experiments are starting..."
 echo "----------------------------------------------------------------"
 
-# --- 1. MNIST dataset experiment ---
+# --- Step 0: Verify Code Integrity with Unit Tests ---
+echo "✅ Running unit tests to verify implementations..."
+pytest
+echo "✅ All tests passed successfully."
+echo "----------------------------------------------------------------"
+
+
+# --- Step 1. MNIST dataset experiment ---
 echo "1️⃣  MNIST dataset experiment is running..."
 echo "   - epochs: 5"
 echo "   - epsilon(eps): 0.3 (relatively large value)"
@@ -34,7 +41,7 @@ echo "✅ MNIST experiment completed successfully."
 echo "----------------------------------------------------------------"
 
 
-# --- 2. CIFAR-10 dataset experiment ---
+# --- Step 2. CIFAR-10 dataset experiment ---
 echo "2️⃣  CIFAR-10 dataset experiment is running..."
 echo "   - epochs: 10 (more complex dataset, so more epochs)"
 echo "   - epsilon(eps): 0.05 (relatively small value)"

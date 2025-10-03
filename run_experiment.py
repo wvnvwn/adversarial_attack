@@ -28,13 +28,32 @@ def main(args):
     print("\n--- Starting Model Training ---")
     runner.train(train_loader)
     
+    # --- Save the trained model ---
+    os.makedirs("checkpoints", exist_ok=True)
+    model_path = f"checkpoints/{args.dataset}_epochs{args.epochs}_seed{args.seed}.pth"
+    torch.save(model.state_dict(), model_path)
+    print(f"Model weights saved to {model_path}")
+    
     print("\n--- Evaluating on Clean Data ---")
-    runner.evaluate_clean(test_loader)
+    clean_accuracy = runner.evaluate_clean(test_loader)
     
     print("\n--- Performing Adversarial Attacks ---")
-    runner.evaluate_attacks(test_loader)
+    attack_results = runner.evaluate_attacks(test_loader)
     
-    print("\n--- Experiment Complete ---")
+    # --- 5. Save results to a file ---
+    final_results = {
+        "config": vars(args),
+        "clean_accuracy": clean_accuracy,
+        "attack_results": attack_results,
+    }
+
+    os.makedirs("results", exist_ok=True)
+    results_filename = f"results/{args.dataset}_eps{args.eps}_epochs{args.epochs}_seed{args.seed}.json"
+    with open(results_filename, 'w') as f:
+        json.dump(final_results, f, indent=4)
+
+    print(f"\n--- Experiment Complete ---")
+    print(f"Results saved to {results_filename}")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Run Adversarial Attack Experiment")

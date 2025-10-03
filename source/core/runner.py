@@ -38,7 +38,7 @@ class ExperimentRunner:
 
     def evaluate_clean(self, loader):
         self.model.eval()
-        total_acc = 0
+        total_acc = 0.0
         count = 0
         for images, labels in loader:
             images, labels = images.to(self.device), labels.to(self.device)
@@ -46,23 +46,52 @@ class ExperimentRunner:
             count += len(labels)
         self.clean_accuracy = total_acc / count
         print(f"Accuracy on clean images: {self.clean_accuracy:.2f}%")
+        return self.clean_accuracy
 
     def evaluate_attacks(self, loader):
         self.model.eval()
-        images, labels = next(iter(loader))
-        images, labels = images.to(self.device), labels.to(self.device)
-        targets = (labels + 5) % 10 # Arbitrary target for targeted attacks
+        # Metric accumulators
+        metrics = {
+            "fgsm_untargeted_acc": 0.0,
+            "fgsm_targeted_success": 0.0,
+            "pgd_untargeted_acc": 0.0,
+            "pgd_targeted_success": 0.0,
+        }
+        total_samples = 0
 
-        # FGSM
-        adv_un = self.fgsm_attacker.attack_untargeted(images, labels, self.args.eps)
-        print(f"FGSM Untargeted Accuracy: {self._evaluate_batch(adv_un, labels):.2f}%")
+        for images, labels in tqdm(loader, desc="Evaluating Attacks"):
+            images, labels = images.to(self.device), labels.to(self.device)
+            targets = (labels + 5) % 10  # Arbitrary target for targeted attacks
+                
+            # FGSM
+            adv_un = self.fgsm_attacker.attack_untargeted(images, labels, self.args.eps)
+            metrics["fgsm_untargeted_acc"] += self._evaluate_batch(adv_un, labels) * len(labels)
+            
+            adv_t = self.fgsm_attacker.attack_targeted(images, targets, self.args.eps)
+            metrics["fgsm_targeted_success"] += self._evaluate_batch(adv_t, targets) * len(labels)
+
+            # PGD
+            adv_un_pgd = self.pgd_attacker.attack_untargeted(images, labels, self.args.eps, self.args.pgd_step, self.args.pgd_iter)
+            metrics["pgd_untargeted_acc"] += self._evaluate_batch(adv_un_pgd, labels) * len(labels)
+
+            adv_t_pgd = self.pgd_attacker.attack_targeted(images, targets, self.args.eps, self.args.pgd_step, self.args.pgd_iter)
+            metrics["pgd_targeted_success"] += self._evaluate_batch(adv_t_pgd, targets) * len(labels)
+
+            total_samples += len(labels)
+
+        # Organize final results into a dictionary
+        final_metrics = {
+            "FGSM Untargeted Accuracy": metrics['fgsm_untargeted_acc'] / total_samples,
+            "FGSM Targeted Success Rate": metrics['fgsm_targeted_success'] / total_samples,
+            "PGD Untargeted Accuracy": metrics['pgd_untargeted_acc'] / total_samples,
+            "PGD Targeted Success Rate": metrics['pgd_targeted_success'] / total_samples,
+        }
+
+        # Print organized results
+        print(f"\n--- Attack Evaluation Summary (eps={self.args.eps}) ---")
+        for name, value in final_metrics.items():
+            print(f"{name}: {value:.2f}%")
+        print("-------------------------------------------------")
         
-        adv_t = self.fgsm_attacker.attack_targeted(images, targets, self.args.eps)
-        print(f"FGSM Targeted Success Rate: {self._evaluate_batch(adv_t, targets):.2f}%")
-
-        # PGD
-        adv_un_pgd = self.pgd_attacker.attack_untargeted(images, labels, self.args.eps, self.args.pgd_step, self.args.pgd_iter)
-        print(f"PGD Untargeted Accuracy: {self._evaluate_batch(adv_un_pgd, labels):.2f}%")
-
-        adv_t_pgd = self.pgd_attacker.attack_targeted(images, targets, self.args.eps, self.args.pgd_step, self.args.pgd_iter)
-        print(f"PGD Targeted Success Rate: {self._evaluate_batch(adv_t_pgd, targets):.2f}%")
+        # Return organized results
+        return final_metrics

@@ -1,7 +1,7 @@
 from torch import nn
 
 class SourceNet(nn.Module):
-    """A novel, simple CNN for MNIST."""
+    """Simple CNN for MNIST."""
     def __init__(self, output_dim=10):
         super().__init__()
         self.network = nn.Sequential(

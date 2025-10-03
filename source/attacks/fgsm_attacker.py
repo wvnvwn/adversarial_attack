@@ -37,3 +37,15 @@ class FgsmAttacker:
         perturbed_image = torch.clamp(perturbed_image, 0, 1)
         
         return perturbed_image
+
+    # Static methods for convenience in functional form
+    @staticmethod
+    def fgsm_untargeted(model, x, label, eps):
+        attacker = FgsmAttacker(model)
+        return attacker.attack_untargeted(x, label, eps)
+
+    # Static methods for convenience in functional form
+    @staticmethod
+    def fgsm_targeted(model, x, target, eps):
+        attacker = FgsmAttacker(model)
+        return attacker.attack_targeted(x, target, eps)
