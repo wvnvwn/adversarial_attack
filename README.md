@@ -13,15 +13,10 @@ This project delivers a Python-based implementation of FGSM and PGD adversarial 
 
 ## 3. Environment Setup
 
-It is recommended to use a virtual environment.
+It is recommended to use a conda environment.
 
 ```bash
-# Create and activate a virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-
-# Install required packages
-pip install -r requirements.txt
+conda env create -f environment.yml
 ```
 
 ## 4. Usage
