@@ -37,6 +37,9 @@ PGD_STEP_CIFAR10=0.02
 echo "1️⃣  MNIST dataset experiment is running..."
 echo "   - epochs: $EPOCHS_MNIST"
 echo "   - epsilon(eps): $EPS_MNIST (relatively large value)"
+echo "   - learning rate: $LEARNING_RATE_MNIST"
+echo "   - pgd iter: $PGD_ITER_MNIST"
+echo "   - pgd step: $PGD_STEP_MNIST"
 echo ""
 
 python run_experiment.py \
@@ -58,6 +61,9 @@ echo "----------------------------------------------------------------"
 echo "2️⃣  CIFAR-10 dataset experiment is running..."
 echo "   - epochs: $EPOCHS_CIFAR10 (more complex dataset, so more epochs)"
 echo "   - epsilon(eps): $EPS_CIFAR10 (relatively small value)"
+echo "   - learning rate: $LEARNING_RATE_CIFAR10"
+echo "   - pgd iter: $PGD_ITER_CIFAR10"
+echo "   - pgd step: $PGD_STEP_CIFAR10"
 echo ""
 
 python run_experiment.py \
