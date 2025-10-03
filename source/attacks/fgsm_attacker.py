@@ -38,14 +38,12 @@ class FgsmAttacker:
         
         return perturbed_image
 
-    # Static methods for convenience in functional form
-    @staticmethod
-    def fgsm_untargeted(model, x, label, eps):
-        attacker = FgsmAttacker(model)
-        return attacker.attack_untargeted(x, label, eps)
+def fgsm_untargeted(model, x, label, eps):
+    """Functional wrapper for untargeted FGSM attack"""
+    attacker = FgsmAttacker(model)
+    return attacker.attack_untargeted(x, label, eps)
 
-    # Static methods for convenience in functional form
-    @staticmethod
-    def fgsm_targeted(model, x, target, eps):
-        attacker = FgsmAttacker(model)
-        return attacker.attack_targeted(x, target, eps)
+def fgsm_targeted(model, x, target, eps):
+    """Functional wrapper for targeted FGSM attack"""
+    attacker = FgsmAttacker(model)
+    return attacker.attack_targeted(x, target, eps)

@@ -51,3 +51,13 @@ class PgdAttacker:
                 perturbed_image = torch.clamp(original_image + eta, 0, 1)
         
         return perturbed_image
+    
+def pgd_untargeted(model, x, label, k, eps, eps_step):
+    """Functional wrapper for untargeted PGD attack."""
+    attacker = PgdAttacker(model)
+    return attacker.attack_untargeted(x, label, eps, eps_step, k)
+
+def pgd_targeted(model, x, target, k, eps, eps_step):
+    """Functional wrapper for targeted PGD attack."""
+    attacker = PgdAttacker(model)
+    return attacker.attack_targeted(x, target, eps, eps_step, k)

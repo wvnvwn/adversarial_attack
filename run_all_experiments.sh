@@ -16,7 +16,7 @@ echo "----------------------------------------------------------------"
 
 # --- Step 0: Verify Code Integrity with Unit Tests ---
 echo "✅ Running unit tests to verify implementations..."
-pytest
+python -m pytest
 echo "✅ All tests passed successfully."
 echo "----------------------------------------------------------------"
 

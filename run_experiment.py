@@ -3,6 +3,9 @@ Main execution script for the adversarial attack experiment.
 Initializes configuration, prepares data, builds a model, runs the
 training and evaluation pipeline, and reports attack results.
 """
+import os
+import json
+import torch
 import argparse
 from source.utils.config import configure_environment
 from source.data.data_provider import load_dataset
