@@ -41,10 +41,10 @@ chmod +x run_all_experiments.sh
 
 ## 5. Script Arguments (for manual execution)
 - ```--dataset```: ```mnist``` or ```cifar10```. Default is ```mnist```.
-- ```--n-epochs```: Default is ```3```.
+- ```--epochs```: Default is ```3```.
 - ```--batch_size```: Default is ```64```.
 - ```--learning_rate```: Default is ```0.001```.
 - ```--seed```: Global random seed for reproducability. Default is ```42```.
-- ```eps```: Perturbation budget for attacks. Default is ```0.1```.
+- ```eps```: Perturbation budget for attacks. Default is ```0.2```.
 - ```--pgd-iter```: Number of iterations for PGD. Default is ```10```.
 - ```--pgd_step_size```: Step size for each PGD iteration. Default is ```0.01```.
