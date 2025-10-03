@@ -16,8 +16,8 @@ class ExperimentRunner:
 
     def train(self, loader):
         self.model.train()
-        for epoch in range(self.args.n_epochs):
-            pbar = tqdm(loader, desc=f"Epoch {epoch+1}/{self.args.n_epochs}")
+        for epoch in range(self.args.epochs):
+            pbar = tqdm(loader, desc=f"Epoch {epoch+1}/{self.args.epochs}")
             for images, labels in pbar:
                 images, labels = images.to(self.device), labels.to(self.device)
                 
@@ -61,8 +61,8 @@ class ExperimentRunner:
         print(f"FGSM Targeted Success Rate: {self._evaluate_batch(adv_t, targets):.2f}%")
 
         # PGD
-        adv_un_pgd = self.pgd_attacker.attack_untargeted(images, labels, self.args.eps, self.args.pgd_step_size, self.args.pgd_iter)
+        adv_un_pgd = self.pgd_attacker.attack_untargeted(images, labels, self.args.eps, self.args.pgd_step, self.args.pgd_iter)
         print(f"PGD Untargeted Accuracy: {self._evaluate_batch(adv_un_pgd, labels):.2f}%")
 
-        adv_t_pgd = self.pgd_attacker.attack_targeted(images, targets, self.args.eps, self.args.pgd_step_size, self.args.pgd_iter)
+        adv_t_pgd = self.pgd_attacker.attack_targeted(images, targets, self.args.eps, self.args.pgd_step, self.args.pgd_iter)
         print(f"PGD Targeted Success Rate: {self._evaluate_batch(adv_t_pgd, targets):.2f}%")

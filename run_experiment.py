@@ -42,13 +42,13 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, default='mnist', choices=['mnist', 'cifar10'])
     parser.add_argument('--seed', type=int, default=123)
     # Training args
-    parser.add_argument('--n-epochs', type=int, default=3)
-    parser.add_argument('--batch-size', type=int, default=64)
-    parser.add_argument('--learning-rate', type=float, default=0.001)
+    parser.add_argument('--epochs', type=int, default=3)
+    parser.add_argument('--batch_size', type=int, default=64)
+    parser.add_argument('--learning_rate', type=float, default=0.001)
     # Attack args
     parser.add_argument('--eps', type=float, default=0.1)
-    parser.add_argument('--pgd-iter', type=int, default=10)
-    parser.add_argument('--pgd-step-size', type=float, default=0.01)
+    parser.add_argument('--pgd_iter', type=int, default=10)
+    parser.add_argument('--pgd_step', type=float, default=0.01)
 
     cli_args = parser.parse_args()
     main(cli_args)
